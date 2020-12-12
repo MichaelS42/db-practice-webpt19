@@ -1,20 +1,19 @@
-
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const morgan = require("morgan");
 require("colors");
 
+const testRouter = require("./testRoute.js");
+const characterRouter = require("../routes/character-routes.js");
+
 const server = express();
 
-let currentTime = new Date().toLocaleString();
+server.use(helmet());
+server.use(morgan("dev"));
+server.use(cors());
+server.use(express.json());
 
-server.get("/test", (req, res) => {
-  res.status(200).json({
-    status: 200,
-    message: "GET /test is working",
-    time: currentTime,
-  });
-});
-
-module.exports = server
+server.use("/api", testRouter);
+server.use("/api/characters", characterRouter);
+module.exports = server;
