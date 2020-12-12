@@ -1,33 +1,35 @@
-const db = require('../database/dbConfig.js')
+const db = require("../database/dbConfig.js");
 
 module.exports = {
-    add,
-    find,
-    findBy,
-    findById,
-    update,
-    remove
+  add,
+  find,
+  findBy,
+  findById,
+  update,
+  remove,
+};
+
+async function add(character) {
+  const [id] = await db("characters").insert(character);
+  return findById(id);
 }
 
-
-function add(){}
-
-
-
-function find(){
-    returndb('characters')
+function find() {
+  return db("characters");
 }
 
+function findBy(filter) {
+  return db("character").where(filter);
+}
 
-function findBy(){}
+function findById(id) {
+  return db("characters").where({ id }).first();
+}
 
+function update(changes, id) {
+  return db("characters").where({ id }).update(changes);
+}
 
-function findById(){}
-
-
-
-function update(){}
-
-
-function remove(){}
-
+function remove(id) {
+  return db("characters").where("id", Number(id)).del();
+}
